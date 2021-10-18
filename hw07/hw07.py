@@ -85,16 +85,5 @@ import numpy as np
 # A = np.diag(d)
 # print(A)
 
-import collections
-FORGET_FACTOR = 0.98
-R_forget = [0]
-R_0 = np.identity(3)
-d = collections.deque()
-diag_list = []
-
-for i in range(1, 5):
-    for j in range(3):
-        d.appendleft(FORGET_FACTOR ** (i - 1))
-    diag_list.append(np.diag(d))
-    print(np.diag(d))
 # print(diag_list)
+# This is Wendy
