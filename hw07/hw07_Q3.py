@@ -43,7 +43,7 @@ fig.suptitle('Compare different LS runtime')
 # Constructing Y
 y_0 = y[0, 0]
 Y = [0, y_0] # len(A) = 501. Use A[i] to produce A_i
-for i in range(1, N):
+for i in range(1, N): 
     y_0 = np.concatenate((y_0, y[0, i]), axis=0)
     Y.append(y_0)
 
@@ -54,6 +54,7 @@ for i in range(1, N + 1):
 
 E = [0] * n
 start = time.time()
+#Since we need the overdetermine result, so we only need k which is lager than n=34
 for k in range(n, N + 1):
     A_k = A[k]
     Y_k = Y[k]
@@ -61,12 +62,12 @@ for k in range(n, N + 1):
     x_actual_k = x_actual[0, k - 1]
     x_hat_k = np.linalg.inv(A_k.T.dot(R_k).dot(A_k)).dot(A_k.T).dot(R_k).dot(Y_k)
     x_error_k = x_hat_k - x_actual_k
-    norm_k = np.linalg.norm(x_error_k)
-    E.append(norm_k)
+    norm_k = (x_error_k)
+    E.append(norm_k) 
 end = time.time()
 print("Run time for calculating norm error using batch Process = ", end - start)
 
-ax1.plot(E[n:], 'r.')
+ax1.plot(E[n:], 'm.')
 ax1.set(xlabel='k', ylabel='E_k')
 ax1.set_title("Norm error in x-hat using Batch Process\n Run time = {:.3f} s".format(end - start))
 # plt.show()
@@ -109,19 +110,19 @@ for i in range(n + 1, N + 1):
     norm = np.linalg.norm(X_error_1)
     E_RLS.append(norm)
 
-    M_0 = M_1
+    M_0 = M_1 
     X_0 = X_1
 end = time.time()
 print("Run time for calculating norm error using RLS = ", end - start)
 
 
-ax2.plot(E_RLS[n:], 'b.')
+ax2.plot(E_RLS[n:], 'c.')
 ax2.set(xlabel='k', ylabel='E_k')
 ax2.set_title("Norm error in x-hat using RLS\n Run time = {:.3f} s".format(end - start))
 # plt.show()
 
 
-
+# 3 - (d)
 M_0_inv = np.linalg.inv(M_n)
 X_0 = X_n
 start = time.time()
@@ -141,7 +142,7 @@ end = time.time()
 print("Run time for calculating norm error using RLS with Inversion Lemma = ", end - start)
 
 
-ax3.plot(E_RLS_IL[n:], 'y.')
+ax3.plot(E_RLS_IL[n:], 'r.')
 ax3.set(xlabel='k', ylabel='E_k')
 ax3.set_title("Norm error in x-hat using RLS with Inversion Lemma\n Run time = {:.3f} s".format(end - start))
 plt.show()

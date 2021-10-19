@@ -13,7 +13,7 @@ mat_fname = pjoin(dir_path, 'DataHW07_Prob4.mat')
 mat_contents = sio.loadmat(mat_fname)
 print("mat_contents include: ", sorted(mat_contents.keys()))
 
-C_pre = mat_contents['C'] # C.shape = (1, 500), C[0][0].shape = (3, 20)
+C_pre = mat_contents['C'] # C_pre.shape = (1, 500), C[0][0].shape = (3, 20)
 N = mat_contents['N'][0][0] # N = 500
 x_actual = mat_contents['x_actual'] # x_actual.shape = (1, 500), x_actual[0][0].shape = (20, 1)
 y = mat_contents['y'] # y.shape = (1, 500), y[0][0].shape = (3, 1)
@@ -66,7 +66,7 @@ for k in range(n, N + 1):
 end = time.time()
 print("Run time for calculating norm error using batch Process = ", end - start)
 
-ax1.plot(E[n:], 'r.')
+ax1.plot(E[n:], 'c.')
 ax1.set(xlabel='k', ylabel='E_k')
 ax1.set_title("Norm error in x-hat using original Batch Process\n Run time = {:.3f} s".format(end - start))
 
@@ -112,7 +112,7 @@ for k in range(n, N + 1):
 end = time.time()
 print("Run time for calculating norm error using batch Process = ", end - start)
 
-ax2.plot(E_forget[n:], 'b.')
+ax2.plot(E_forget[n:], 'r.')
 ax2.set(xlabel='k', ylabel='E_k')
 ax2.set_title("Norm error in x-hat using Batch Process\n Forgetting factor = {}\n Run time = {:.3f} s".format(FORGET_FACTOR, end - start))
 
@@ -194,7 +194,7 @@ for i in range(n + 1, N + 1):
 end = time.time()
 print("Run time for calculating norm error using RLS with Inversion Lemma = ", end - start)
 
-ax3.plot(E_RLS_IL[n:], 'y.')
+ax3.plot(E_RLS_IL[n:], 'g.')
 ax3.set(xlabel='k', ylabel='E_K')
 ax3.set_title("Norm error in x-hat using RLS with Inversion Lemma\n Forgetting factor = {}\n Run time = {:.3f} s".format(FORGET_FACTOR, end - start))
 plt.show()
@@ -203,37 +203,37 @@ plt.show()
 # 4 - (bonus)
 # ------------------------------------------------------
 
-for FORGET_FACTOR in np.linspace(1, 0.25, 4):
-    # E_RLS = [0] * n
-    E_RLS_IL = [0] * n
-    X_n = np.linalg.inv(M_n).dot(G_n)
-    X_actual_n = x_actual[0, n - 1]
-    X_error_k = X_n - X_actual_n
-    norm_k = np.linalg.norm(X_error_k)
+# for FORGET_FACTOR in np.linspace(1, 0.25, 4):
+#     # E_RLS = [0] * n
+#     E_RLS_IL = [0] * n
+#     X_n = np.linalg.inv(M_n).dot(G_n)
+#     X_actual_n = x_actual[0, n - 1]
+#     X_error_k = X_n - X_actual_n
+#     norm_k = np.linalg.norm(X_error_k)
 
-    E_RLS_IL.append(norm_k)
+#     E_RLS_IL.append(norm_k)
 
-    M_0_inv = np.linalg.inv(M_n)
-    X_0 = X_n
-    start = time.time()
-    for i in range(n + 1, N + 1):
-        C_1 = C[i]
-        Y_1 = y[0][i - 1]
-        M_1_inv = 1 / FORGET_FACTOR * M_0_inv - 1 / FORGET_FACTOR * M_0_inv.dot(C_1.T).dot(np.linalg.inv(FORGET_FACTOR * np.identity(3) + C_1.dot(M_0_inv).dot(C_1.T))).dot(C_1).dot(M_0_inv)
-        X_1 = X_0 + M_1_inv.dot(C_1.T).dot(Y_1 - C_1.dot(X_0))
+#     M_0_inv = np.linalg.inv(M_n)
+#     X_0 = X_n
+#     start = time.time()
+#     for i in range(n + 1, N + 1):
+#         C_1 = C[i]
+#         Y_1 = y[0][i - 1]
+#         M_1_inv = 1 / FORGET_FACTOR * M_0_inv - 1 / FORGET_FACTOR * M_0_inv.dot(C_1.T).dot(np.linalg.inv(FORGET_FACTOR * np.identity(3) + C_1.dot(M_0_inv).dot(C_1.T))).dot(C_1).dot(M_0_inv)
+#         X_1 = X_0 + M_1_inv.dot(C_1.T).dot(Y_1 - C_1.dot(X_0))
 
-        X_1_actual = x_actual[0, i - 1]
-        X_error_1 = X_1 - X_1_actual
-        norm = np.linalg.norm(X_error_1)
-        E_RLS_IL.append(norm)    
+#         X_1_actual = x_actual[0, i - 1]
+#         X_error_1 = X_1 - X_1_actual
+#         norm = np.linalg.norm(X_error_1)
+#         E_RLS_IL.append(norm)    
 
-        M_0_inv = M_1_inv
-        X_0 = X_1
+#         M_0_inv = M_1_inv
+#         X_0 = X_1
 
-    plt.plot(E_RLS_IL[n:], label='FORGET_FACTOR = {}'.format(FORGET_FACTOR))
+#     plt.plot(E_RLS_IL[n:], label='FORGET_FACTOR = {}'.format(FORGET_FACTOR))
 
-plt.xlabel("k")
-plt.ylabel("E_k")
-plt.title("Norm error for different forget factors")
-plt.legend(loc = 'upper right')
-plt.show()
+# plt.xlabel("k")
+# plt.ylabel("E_k")
+# plt.title("Norm error for different forget factors")
+# plt.legend(loc = 'upper right')
+# plt.show()
