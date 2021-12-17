@@ -116,8 +116,6 @@ ax2.plot(E_forget[n:], 'r.')
 ax2.set(xlabel='k', ylabel='E_k')
 ax2.set_title("Norm error in x-hat using Batch Process\n Forgetting factor = {}\n Run time = {:.3f} s".format(FORGET_FACTOR, end - start))
 
-
-
 # Start from A_7, which is A[7]
 A_n = A[n]
 Y_n = Y[n]
@@ -196,7 +194,7 @@ print("Run time for calculating norm error using RLS with Inversion Lemma = ", e
 
 ax3.plot(E_RLS_IL[n:], 'g.')
 ax3.set(xlabel='k', ylabel='E_K')
-ax3.set_title("Norm error in x-hat using RLS with Inversion Lemma\n Forgetting factor = {}\n Run time = {:.3f} s".format(FORGET_FACTOR, end - start))
+ax3.set_title("Norm error in x-hat using RLS\n with Inversion Lemma\n Forgetting factor = {}\n Run time = {:.3f} s".format(FORGET_FACTOR, end - start))
 plt.show()
 
 
